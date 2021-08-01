@@ -1,4 +1,5 @@
-﻿using Buffet.Models;
+﻿using Buffet.Data;
+using Buffet.Models;
 using Buffet.Models.Buffet.Cliente;
 using Buffet.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
@@ -14,14 +15,20 @@ namespace Buffet.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly DatabaseContext _databaseContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(
+            ILogger<HomeController> logger,
+            DatabaseContext databaseContext
+            )
         {
             _logger = logger;
+            _databaseContext = databaseContext;
         }
 
         public IActionResult Index()
         {
+            var todosClientes = _databaseContext.Clientes.ToList();
             return View();
         }
 
